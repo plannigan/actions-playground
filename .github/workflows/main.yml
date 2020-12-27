@@ -1,0 +1,25 @@
+name: CI
+
+# Triggers the workflow on push or pull request
+# events but only for the main branch
+on: [push, pull_request]
+
+env:
+  PYTHON_VERSION: "3.9"
+
+jobs:
+  simple-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Always passes
+        run: echo "Success"
+
+  use-branch-name:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - name: Extract branch name
+        run: echo "::set-output name=branch::$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+      - name: Use branch name
+        run: echo "branch name - ${{ steps.extract_branch.outputs.branch }}"
