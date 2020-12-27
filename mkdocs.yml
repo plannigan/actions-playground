@@ -5,3 +5,7 @@ docs_dir: docs
 nav:
   - Overview: index.md
 theme: material
+extra_css:
+  - css/version-select.css
+extra_javascript:
+  - js/version-select.js
