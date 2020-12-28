@@ -1,0 +1,33 @@
+name: Version Bump
+
+on:
+  workflow_dispatch:
+    inputs:
+      new_version:
+        description: 'The new version to use'
+        required: true
+
+jobs:
+  create_version_bump_pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Setup github user
+        run: |
+          git config user.name "${{ github.event.pusher.name }}"
+          git config user.email "${{ github.event.pusher.name }}"
+      - name: Edit file for new branch
+        run: |
+          echo "BRANCH_NAME='update_to_${{ github.event.inputs.new_version }}'" >> $GITHUB_ENV
+          git switch -c "${BRANCH_NAME}"
+          sed -i -E 's/VERSION=.+/VERSION=${{ github.event.inputs.new_version }}/g' docs/index.md
+          git add docs/index.md
+          git commit -m "Update version to ${{ github.event.inputs.new_version }}"
+          git push origin "${BRANCH_NAME}"
+      - name: Create Pull Request
+        uses: repo-sync/pull-request@v2
+        with:
+          destination_branch: "main"
+          source_branch: ${{ env.BRANCH_NAME }}
+          pr_label: "version-bump"
