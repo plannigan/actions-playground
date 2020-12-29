@@ -12,4 +12,4 @@ jobs:
     steps:
     - run: |
         echo "A merged PR"
-        echo "${{ toJSON(github.event) }}"
+        echo "${{ toJSON(github) }}"
