@@ -7,11 +7,9 @@ on:
 jobs:
   trigger_release:
     runs-on: ubuntu-latest
-#    if: "startsWith(github.head_ref, 'Bump version: ') && contains(github.head_ref, ' → ')"
+    if: "startsWith(github.event.pull_request.title, 'Bump version: ') && contains(github.event.pull_request.title, ' → ')"
     steps:
       - run: "
-        echo \"starts with: ${{ startsWith(github.head_ref, 'Bump version ') }}\"
-        echo \"contains: ${{ contains(github.head_ref, ' → ') }}\"
         PR_TITLE=\"${{ github.event.pull_request.title }}\"
         VERSION_TRANSITIONS=\"${PR_TITLE#Bump version: }\"
         OLD_VERSION=\"${VERSION_TRANSITIONS% → *}\"
