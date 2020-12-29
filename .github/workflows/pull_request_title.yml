@@ -7,12 +7,14 @@ on:
 jobs:
   trigger_release:
     runs-on: ubuntu-latest
-    if: "startsWith(github.head_ref, 'Bump version: ') && contains(github.head_ref, ' → ')"
+#    if: "startsWith(github.head_ref, 'Bump version: ') && contains(github.head_ref, ' → ')"
     steps:
-      - run: '
-        PR_TITLE="${{ github.event.pull_request.title }}"
-        VERSION_TRANSITIONS="${PR_TITLE#Bump version: }"
-        OLD_VERSION="${VERSION_TRANSITIONS% → *}"
-        NEW_VERSION="${VERSION_TRANSITIONS#* → }"
+      - run: "
+        echo \"starts with: ${{ startsWith(github.head_ref, 'Bump version ') }}\"
+        echo \"contains: ${{ contains(github.head_ref, ' → ') }}\"
+        PR_TITLE=\"${{ github.event.pull_request.title }}\"
+        VERSION_TRANSITIONS=\"${PR_TITLE#Bump version: }\"
+        OLD_VERSION=\"${VERSION_TRANSITIONS% → *}\"
+        NEW_VERSION=\"${VERSION_TRANSITIONS#* → }\"
         ./scripts/version.sh ${OLD_VERSION} ${NEW_VERSION}
-        '
+        "
