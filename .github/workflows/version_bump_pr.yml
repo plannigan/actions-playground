@@ -13,22 +13,13 @@ jobs:
     if: github.event.pull_request.merged && startsWith(github.head_ref, 'bump_version_to_')
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo "A merged PR"
-          echo "action_path: ${{ github.action_path }}"
-          echo "actor: ${{ github.actor }}"
-          echo "base_ref: ${{ github.base_ref }}"
-          echo "github.event.pull_request.merged: ${{ github.event.pull_request.merged }}"
-          echo "startsWith(github.head_ref, 'bump_version_to_'): ${{ startsWith(github.head_ref, 'bump_version_to_') }}"
-          echo "expression ${{ github.event.pull_request.merged == true && startsWith(github.head_ref, 'bump_version_to_') }}"
-          echo "expression more ${{ github.event.pull_request.merged == true && startsWith(github.head_ref, 'bump_version_to_') == true }}"
-          echo "event_name: ${{ github.event_name }}"
-          echo "event_path: ${{ github.event_path }}"
-          echo "head_ref: ${{ github.head_ref }}"
-          echo "ref: ${{ github.ref }}"
-
-          echo "Event"
-          echo "action: ${{ github.event.action }}"
-          echo "number: ${{ github.event.number }}"
-          echo "installation: ${{ github.event.installation }}"
-          echo "sender: ${{ toJSON(github.event.sender) }}"
+      - name: Check out code
+        uses: actions/checkout@v2
+      # quotes and escaped quotes are needed because of conflict between bash and yaml
+      - run: "
+        PR_TITLE=\"${{ github.event.pull_request.title }}\"
+        VERSION_TRANSITIONS=\"${PR_TITLE#Bump version: }\"
+        OLD_VERSION=\"${VERSION_TRANSITIONS% → *}\"
+        NEW_VERSION=\"${VERSION_TRANSITIONS#* → }\"
+        ./scripts/version.sh ${OLD_VERSION} ${NEW_VERSION}
+        "

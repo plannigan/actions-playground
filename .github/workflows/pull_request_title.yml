@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     if: "startsWith(github.event.pull_request.title, 'Bump version: ') && contains(github.event.pull_request.title, ' → ')"
     steps:
+      - name: Check out code
+        uses: actions/checkout@v2
       - run: "
         PR_TITLE=\"${{ github.event.pull_request.title }}\"
         VERSION_TRANSITIONS=\"${PR_TITLE#Bump version: }\"
