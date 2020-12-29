@@ -15,7 +15,30 @@ jobs:
     steps:
       - run: |
           echo "A merged PR"
-          echo "${{ toJSON(github) }}" > github.json
+          echo "action_path: ${{ github.action_path }}"
+          echo "actor: ${{ github.actor }}"
+          echo "base_ref: ${{ github.base_ref }}"
+          echo "event_name: ${{ github.event_name }}"
+          echo "event_path: ${{ github.event_path }}"
+          echo "head_ref: ${{ github.head_ref }}"
+          echo "job: ${{ github.job }}"
+          echo "ref: ${{ github.ref }}"
+          echo "repository: ${{ github.repository }}"
+          echo "repository_owner: ${{ github.repository_owner }}"
+          echo "run_id: ${{ github.run_id }}"
+          echo "run_number: ${{ github.run_number }}"
+          echo "sha: ${{ github.sha }}"
+          echo "workflow: ${{ github.workflow }}"
+          echo "workspace: ${{ github.workspace }}"
+
+          echo "Event"
+          echo "action: ${{ github.event.action }}"
+          echo "number: ${{ github.event.number }}"
+          echo "installation: ${{ github.event.installation }}"
+          echo "sender: ${{ toJSON((github.event.sender) }}"
+
+          echo "Pull request"
+          echo "${{ toJSON(github.event.pull_request) }}" > github.json
 
       - name: upload event details
         uses: actions/upload-artifact@v2
