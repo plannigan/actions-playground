@@ -10,7 +10,7 @@ on:
 jobs:
   merge_job:
     # this job will only run if the PR has been merged and has the expected title
-    if: github.event.pull_request.merged == true && startsWith("bump_version_to_", github.head_ref)
+    if: github.event.pull_request.merged == true && startsWith('bump_version_to_', github.head_ref)
     runs-on: ubuntu-latest
     steps:
       - run: |
