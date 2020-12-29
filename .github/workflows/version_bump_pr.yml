@@ -1,34 +1,15 @@
-name: Version Bump
+name: Version Bump Merged
 
 on:
-  workflow_dispatch:
-    inputs:
-      new_version:
-        description: 'The new version to use'
-        required: true
+  pull_request:
+    types: [ closed ]
 
 jobs:
-  create_version_bump_pr:
+  merge_job:
+    # this job will only run if the PR has been merged
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-      - name: Setup github user
-        run: |
-          git config user.name "${{ github.event.sender.login }}"
-          git config user.email "${{ github.event.pusher.name }}"
-      - name: Edit file for new branch
-        run: |
-          BRANCH_NAME='update_to_${{ github.event.inputs.new_version }}'
-          echo "BRANCH_NAME='update_to_${BRANCH_NAME}'" >> $GITHUB_ENV
-          git switch -c "${BRANCH_NAME}"
-          sed -i -E 's/VERSION=.+/VERSION=${{ github.event.inputs.new_version }}/g' docs/index.md
-          git add docs/index.md
-          git commit -m "Update version to ${{ github.event.inputs.new_version }}"
-          git push origin "${BRANCH_NAME}"
-      - name: Create Pull Request
-        uses: repo-sync/pull-request@v2
-        with:
-          destination_branch: "main"
-          source_branch: ${{ env.BRANCH_NAME }}
-          pr_label: "version-bump"
+    - run: |
+        echo "A merged PR"
+        echo "${{ toJSON(github.event) }}"
