@@ -14,23 +14,23 @@ jobs:
       - name: Always passes
         run: echo "Success"
 
-  build-docs:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push'
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Extract branch name
-        run: echo "::set-output name=branch::$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
-
-      - name: Publish temp dev version
-        if: github.ref != 'refs/heads/main'
-        run: mike deploy --push "_dev-${{ steps.extract_branch.outputs.branch }}"
+#  build-docs:
+#    runs-on: ubuntu-latest
+#    if: github.event_name == 'push'
+#    steps:
+#      - name: Check out code
+#        uses: actions/checkout@v2
+#      - uses: actions/setup-python@v2
+#        with:
+#          python-version: ${{ env.PYTHON_VERSION }}
+#
+#      - name: Install dependencies
+#        run: pip install -r requirements.txt
+#
+#      - name: Extract branch name
+#        run: echo "::set-output name=branch::$(echo ${GITHUB_REF#refs/heads/})"
+#        id: extract_branch
+#
+#      - name: Publish temp dev version
+#        if: github.ref != 'refs/heads/main'
+#        run: mike deploy --push "_dev-${{ steps.extract_branch.outputs.branch }}"
