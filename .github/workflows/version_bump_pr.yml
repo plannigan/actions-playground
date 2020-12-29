@@ -35,7 +35,7 @@ jobs:
           echo "action: ${{ github.event.action }}"
           echo "number: ${{ github.event.number }}"
           echo "installation: ${{ github.event.installation }}"
-          echo "sender: ${{ toJSON((github.event.sender) }}"
+          echo "sender: ${{ toJSON(github.event.sender) }}"
 
           echo "Pull request"
           echo "${{ toJSON(github.event.pull_request) }}" > github.json
