@@ -2,7 +2,10 @@ name: Version Bump Merged
 
 on:
   pull_request:
-    types: [ closed ]
+    types:
+      - "closed"
+    branches:
+      - "main"
 
 jobs:
   merge_job:
@@ -10,6 +13,12 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-    - run: |
-        echo "A merged PR"
-        echo "${{ toJSON(github) }}"
+      - run: |
+          echo "A merged PR"
+          echo "${{ toJSON(github) }}" > github.json
+
+      - name: upload event details
+        uses: actions/upload-artifact@v2
+        with:
+          name: event-details
+          path: "github.json"
