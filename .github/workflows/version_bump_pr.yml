@@ -10,7 +10,7 @@ on:
 jobs:
   merge_job:
     # this job will only run if the PR has been merged and has the expected title
-    if: github.event.pull_request.merged == true && startsWith('bump_version_to_', github.head_ref)
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - run: |
@@ -18,18 +18,14 @@ jobs:
           echo "action_path: ${{ github.action_path }}"
           echo "actor: ${{ github.actor }}"
           echo "base_ref: ${{ github.base_ref }}"
+          echo "github.event.pull_request.merged: ${{ github.event.pull_request.merged }}"
+          echo "startsWith('bump_version_to_', github.head_ref): ${{ startsWith('bump_version_to_', github.head_ref) }}"
+          echo "expression ${{ github.event.pull_request.merged == true && startsWith('bump_version_to_', github.head_ref) }}"
+          echo "expression more ${{ github.event.pull_request.merged == true && startsWith('bump_version_to_', github.head_ref) == true }}"
           echo "event_name: ${{ github.event_name }}"
           echo "event_path: ${{ github.event_path }}"
           echo "head_ref: ${{ github.head_ref }}"
-          echo "job: ${{ github.job }}"
           echo "ref: ${{ github.ref }}"
-          echo "repository: ${{ github.repository }}"
-          echo "repository_owner: ${{ github.repository_owner }}"
-          echo "run_id: ${{ github.run_id }}"
-          echo "run_number: ${{ github.run_number }}"
-          echo "sha: ${{ github.sha }}"
-          echo "workflow: ${{ github.workflow }}"
-          echo "workspace: ${{ github.workspace }}"
 
           echo "Event"
           echo "action: ${{ github.event.action }}"
