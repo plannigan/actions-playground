@@ -10,7 +10,7 @@ on:
 jobs:
   merge_job:
     # this job will only run if the PR has been merged and has the expected title
-    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged && startsWith(github.head_ref, 'bump_version_to_')
     runs-on: ubuntu-latest
     steps:
       - run: |
@@ -32,12 +32,3 @@ jobs:
           echo "number: ${{ github.event.number }}"
           echo "installation: ${{ github.event.installation }}"
           echo "sender: ${{ toJSON(github.event.sender) }}"
-
-          echo "Pull request"
-          echo "${{ toJSON(github.event.pull_request) }}" > github.json
-
-      - name: upload event details
-        uses: actions/upload-artifact@v2
-        with:
-          name: event-details
-          path: "github.json"
