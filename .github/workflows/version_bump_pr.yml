@@ -8,18 +8,19 @@ on:
       - "main"
 
 jobs:
-  merge_job:
+  update_docs:
     # this job will only run if the PR has been merged and has the expected title
-    if: github.event.pull_request.merged && startsWith(github.head_ref, 'bump_version_to_')
+    if: |
+      github.event.pull_request.merged && startsWith(github.head_ref, 'bump_version_to_') &&
+      startsWith(github.event.pull_request.title, 'Bump version') &&
+      contains(github.event.pull_request.title, ' → ')
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-      # quotes and escaped quotes are needed because of conflict between bash and yaml
-      - run: "
-        PR_TITLE=\"${{ github.event.pull_request.title }}\"
-        VERSION_TRANSITIONS=\"${PR_TITLE#Bump version: }\"
-        OLD_VERSION=\"${VERSION_TRANSITIONS% → *}\"
-        NEW_VERSION=\"${VERSION_TRANSITIONS#* → }\"
-        ./scripts/version.sh ${OLD_VERSION} ${NEW_VERSION}
-        "
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Update docs for version
+        run: "./scripts/update_docs_for_version.sh ${{ github.event.pull_request.title }}"
