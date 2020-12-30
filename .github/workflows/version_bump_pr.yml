@@ -35,5 +35,8 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Update docs for version
+      - name: Update documentation for new version
         run: "./scripts/update_docs_for_version.sh --pr-title \"${{ github.event.pull_request.title }}\""
+
+      - name: Push documentaiton changes
+        run: git push origin gh-pages
