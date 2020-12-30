@@ -29,4 +29,4 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Update docs for version
-        run: "./scripts/update_docs_for_version.sh ${{ github.event.pull_request.title }}"
+        run: "./scripts/update_docs_for_version.sh --pr-title \"${{ github.event.pull_request.title }}\""
