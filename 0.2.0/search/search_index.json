@@ -1,0 +1,1 @@
+{"config":{"lang":["en"],"min_search_length":3,"prebuild_index":false,"separator":"[\\s\\-]+"},"docs":[{"location":"","text":"Actions Playground A place to experiment with github workflows. VERSION=0.2.0","title":"Overview"},{"location":"#actions-playground","text":"A place to experiment with github workflows. VERSION=0.2.0","title":"Actions Playground"}]}
