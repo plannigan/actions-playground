@@ -12,7 +12,10 @@ jobs:
   store-event:
     runs-on: ubuntu-latest
     steps:
+      - name: Copy to static location
+        run: |
+            cp "${GITHUB_EVENT_PATH}" event.json
       - uses: actions/upload-artifact@v2
         with:
           name: event
-          path: ${{ env.GITHUB_EVENT_PATH }}
+          path: event.json
