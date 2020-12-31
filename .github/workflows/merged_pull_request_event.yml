@@ -12,9 +12,20 @@ jobs:
   store-event:
     runs-on: ubuntu-latest
     steps:
+      - name: Inspecting context
+        run: |
+          echo "merged_by: ${{ toJson(github.event.pull_request.merged_by) }}"
+          echo "sender: ${{ toJson(github.event.pull_request.sender) }}"
+          echo ""
+          echo "sender.login: ${{ github.event.pull_request.sender.login }}"
+          echo "merged_by.login: ${{ github.event.pull_request.merged_by.login }}"
       - name: Copy to static location
         run: |
             cp "${GITHUB_EVENT_PATH}" event.json
+      - uses: actions/upload-artifact@v2
+        with:
+          name: event
+          path: event.json
       - uses: actions/upload-artifact@v2
         with:
           name: event
