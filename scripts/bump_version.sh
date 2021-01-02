@@ -91,4 +91,5 @@ git show --pretty="" --name-only
 git switch --quiet "${DEFAULT_BRANCH}"
 
 echo
-echo "Run 'git push --set-upstream origin ${BUMP_BRANCH_NAME}' to create a pull request"
+echo "Run the following command to create a pull request"
+echo "   git push --set-upstream origin ${BUMP_BRANCH_NAME}"
