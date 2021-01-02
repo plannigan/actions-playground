@@ -16,6 +16,7 @@ if [[ "${VERSION_NAME}" == "" && "${VERSION_BUMP_PR}" == "false" ]]; then
 fi
 
 if [[ "${VERSION_BUMP_PR}" == "false" ]]; then
+  echo "::debug::mike deploy --push \"${VERSION_NAME}\""
   mike deploy --push "${VERSION_NAME}"
   exit 0
 fi
@@ -43,10 +44,13 @@ if is_dev "${NEW_VERSION}"; then
 fi
 
 if [[ "${NEW_IS_DEV}" == "true" ]]; then
+  echo "::debug::mike deploy --push dev"
   mike deploy --push dev
 else
   if [[ "${OLD_IS_DEV}" != "true" ]]; then
+    echo "::debug::mike retitle --message \"Remove latest from title of ${OLD_VERSION}\" \"${OLD_VERSION}\" \"${OLD_VERSION}\""
     mike retitle --message "Remove latest from title of ${OLD_VERSION}" "${OLD_VERSION}" "${OLD_VERSION}"
   fi
+  echo "::debug::mike deploy --push --update-aliases --title \"${NEW_VERSION} (latest)\" \"${NEW_VERSION}\" \"latest\""
   mike deploy --push --update-aliases --title "${NEW_VERSION} (latest)" "${NEW_VERSION}" "latest"
 fi
