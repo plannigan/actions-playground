@@ -1,0 +1,25 @@
+name: Guard job
+
+on: push
+jobs:
+  guard:
+    if: github.ref != 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Always passes
+        run: echo "Success"
+
+  thing1:
+    needs: guard
+    runs-on: ubuntu-latest
+    steps:
+      - name: Always passes
+        run: echo "Success"
+
+
+  thing2:
+    needs: guard
+    runs-on: ubuntu-latest
+    steps:
+      - name: Always passes
+        run: echo "Success"
