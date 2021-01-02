@@ -29,20 +29,11 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: "Configure Git User"
-      id: "git_user"
-      run: "$GITHUB_ACTION_PATH/configure_git_user.sh"
+    - run: "$GITHUB_ACTION_PATH/configure_git_user.sh"
       shell: "bash"
       env:
         USER_NAME: ${{ inputs.name }}
         USER_EMAIL: ${{ inputs.email }}
-    - name: "Pull down latest docs commit"
-      shell: "bash"
-      run: "git fetch --no-tags --prune --progress --no-recurse-submodules --depth=1 origin gh-pages"
-    - name: "Publish documentation"
-      run: "$GITHUB_ACTION_PATH/update_docs_for_version.sh"
-      shell: "bash"
-      env:
         VERSION_NAME: ${{ inputs.version_name }}
         VERSION_BUMP_PR: ${{ inputs.version_bump_pr }}
         PR_TITLE: ${{ github.event.pull_request.title }}
