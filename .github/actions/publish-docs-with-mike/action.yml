@@ -1,0 +1,47 @@
+name: "Publish Docs with Mike"
+description: |
+  Publish versioned documentation with Mike.
+  Requires a python environment to already be setup with mike and any other documentation dependencies installed.
+inputs:
+  version_name:
+    description: "Name a version to publish, no special handling. Required when version_bump_pr is false."
+      Required when
+    required: false
+    default: ""
+  version_bump_pr:
+    description: |
+      Publish a new docs version. Parses the pull request title to detect the old and new versions.
+      If the new version ends with "-dev", the documentation will be published to the "dev" version.
+      Otherwise, the documentation will be published as a new version with the "latest" alias.
+      Can only be used for pull request events.
+      Assumes bump2version's default commit text is used.
+    required: false
+    default: "false"
+  commit_user_name:
+    description: "User name to use for commits. When omitted, the event values will be inspected to derive the name."
+    default: ""
+    required: false
+  commit_user_email:
+    description: "User email to use for commits. When omitted, the event values will be inspected to derive the email."
+    default: ""
+    required: false
+runs:
+  using: "composite"
+  steps:
+    - name: "Configure Git User"
+      id: "git_user"
+      run: "$GITHUB_ACTION_PATH/configure_git_user.sh"
+      shell: "bash"
+      env:
+        USER_NAME: ${{ inputs.name }}
+        USER_EMAIL: ${{ inputs.email }}
+    - name: "Pull down latest docs commit"
+      shell: "bash"
+      run: "git fetch --no-tags --prune --progress --no-recurse-submodules --depth=1 origin gh-pages"
+    - name: "Publish documentation"
+      run: "$GITHUB_ACTION_PATH/update_docs_for_version.sh"
+      shell: "bash"
+      env:
+        VERSION_NAME: ${{ inputs.version_name }}
+        VERSION_BUMP_PR: ${{ inputs.version_bump_pr }}
+        PR_TITLE: ${{ github.event.pull_request.title }}
