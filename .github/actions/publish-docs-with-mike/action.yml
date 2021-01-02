@@ -4,8 +4,9 @@ description: |
   Requires a python environment to already be setup with mike and any other documentation dependencies installed.
 inputs:
   version_name:
-    description: "Name a version to publish, no special handling. Required when version_bump_pr is false."
-      Required when
+    description: |
+      Name a version to publish, no special handling.
+      Required when version_bump_pr is false.
     required: false
     default: ""
   version_bump_pr:
