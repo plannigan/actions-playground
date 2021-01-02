@@ -25,8 +25,8 @@ if [[ "${GITHUB_EVENT_NAME:-}" != "pull_request" ]]; then
   echo "::error::version_bump_pr can only be used for pull request events."
   exit 1
 fi
-if [[ "${PR_TITLE}" =~ ^Bump\sversion:\s(.+?)\s→\s(.+?)$ ]]; then
-  echo "::error::The pull request title is not in the expected format."
+if ! [[ "${PR_TITLE}" =~ ^Bump[[:space:]]version:[[:space:]](.+?)[[:space:]]→[[:space:]](.+?)$ ]]; then
+  echo "::error::The pull request title \"${PR_TITLE}\" is not in the expected format."
   exit 1
 fi
 
