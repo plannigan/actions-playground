@@ -29,7 +29,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: "$GITHUB_ACTION_PATH/configure_git_user.sh"
+    - run: "$GITHUB_ACTION_PATH/action.sh"
       shell: "bash"
       env:
         USER_NAME: ${{ inputs.name }}
