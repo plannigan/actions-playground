@@ -24,9 +24,7 @@ jobs:
       - name: Pull down latest docs commit
         run: git fetch --no-tags --prune --progress --no-recurse-submodules --depth=1 origin gh-pages
       - name: Setup git user
-        run: |
-          git config --local user.email "${{ github.event.pull_request.merged_by.login }}@users.noreply.github.com"
-          git config --local user.name "${{ github.event.pull_request.merged_by.login }}"
+        uses: ./.github/actions/configure-git-user
 
       - uses: actions/setup-python@v2
         with:

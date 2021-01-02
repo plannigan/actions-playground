@@ -1,0 +1,20 @@
+name: "Configure Git User"
+description: "Configure git user for commits, using event values to select the value"
+inputs:
+  name:
+    description: "User name to use instead of inspecting event values"
+    default: ""
+    required: false
+  email:
+    description: "User email to use instead of inspecting event values"
+    default: ""
+    required: false
+runs:
+  using: "composite"
+  steps:
+    - name: "Configure Git User"
+      run: "$GITHUB_ACTION_PATH/action.sh"
+      shell: "bash"
+      env:
+        USER_NAME: ${{ inputs.name }}
+        USER_EMAIL: ${{ inputs.email }}
