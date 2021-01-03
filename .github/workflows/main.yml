@@ -38,6 +38,9 @@ jobs:
   merged-pull-request:
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged
+    # a step is required even though this is being used as a way to not repeat if logic
+    steps:
+      - run: echo Success
 
   update_docs:
     needs: merged-pull-request
