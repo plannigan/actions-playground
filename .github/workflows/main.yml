@@ -1,6 +1,9 @@
 name: CI
 
-on: pull_request
+on:
+  pull_request: {}
+  push:
+      branches: ["main"]
 
 env:
   PYTHON_VERSION: "3.9"
@@ -14,7 +17,7 @@ jobs:
 
   build-docs:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == false
+    if: github.event_name == 'pull_request'
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -35,16 +38,9 @@ jobs:
           name: docs-site
           path: site/
 
-  merged-pull-request:
+  update-dev-docs:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged
-    # a step is required even though this is being used as a way to not repeat if logic
-    steps:
-      - run: echo Success
-
-  update_docs:
-    needs: merged-pull-request
-    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -60,23 +56,3 @@ jobs:
         uses: ./.github/actions/publish-docs-with-mike
         with:
           version_name: dev
-
-  version_bump_pr:
-    needs: merged-pull-request
-    runs-on: ubuntu-latest
-    if: startsWith(github.head_ref, 'bump_version_to_') &&
-      startsWith(github.event.pull_request.title, 'Bump version') &&
-      contains(github.event.pull_request.title, ' → ')
-    steps:
-      - name: Get new version
-        id: get-new-version
-        run: |
-          NEW_VERSION=$(echo ${{ github.head_ref }} | cut -d _ -f4 )
-          echo "::set-output name=version::$NEW_VERSION"
-      - name: Create Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ steps.get-new-version.outputs.version }}
-          release_name: v${{ steps.get-new-version.outputs.version }} Release
