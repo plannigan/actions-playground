@@ -5,17 +5,15 @@ description: |
 inputs:
   version_name:
     description: |
-      Name a version to publish, no special handling.
-      Required when version_bump_pr is false.
+      Name a version to publish.
+      Required when new_version is false.
     required: false
     default: ""
-  version_bump_pr:
+  new_version:
     description: |
-      Publish a new docs version. Parses the pull request title to detect the old and new versions.
-      If the new version ends with "-dev", the documentation will be published to the "dev" version.
-      Otherwise, the documentation will be published as a new version with the "latest" alias.
-      Can only be used for pull request events.
-      Assumes bump2version's default commit text is used.
+      If true, publish a new docs version. If an existing version uses the alias/tile "latest",
+      update the records so that the new version becomes the latest version.
+      If version_name is given, that value will be used. Otherwise the release tag will be used.
     required: false
     default: "false"
   commit_user_name:
@@ -35,5 +33,5 @@ runs:
         USER_NAME: ${{ inputs.name }}
         USER_EMAIL: ${{ inputs.email }}
         VERSION_NAME: ${{ inputs.version_name }}
-        VERSION_BUMP_PR: ${{ inputs.version_bump_pr }}
-        PR_TITLE: ${{ github.event.pull_request.title }}
+        NEW_VERSION: ${{ inputs.new_version }}
+        RELEASE_TAG: ${{ github.event.release.tag_name }}

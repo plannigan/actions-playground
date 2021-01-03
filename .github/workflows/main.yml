@@ -1,8 +1,6 @@
 name: CI
 
-# Triggers the workflow on push or pull request
-# events but only for the main branch
-on: [push, pull_request]
+on: pull_request
 
 env:
   PYTHON_VERSION: "3.9"
@@ -16,7 +14,7 @@ jobs:
 
   build-docs:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref != 'refs/heads/main'
+    if: github.event.pull_request.merged == false
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -36,3 +34,46 @@ jobs:
         with:
           name: docs-site
           path: site/
+
+  merged-pull-request:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged
+
+  update_docs:
+    needs: merged-pull-request
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Push documentaiton changes
+        uses: ./.github/actions/publish-docs-with-mike
+        with:
+          version_name: dev
+
+  version_bump_pr:
+    needs: merged-pull-request
+    runs-on: ubuntu-latest
+    if: startsWith(github.head_ref, 'bump_version_to_') &&
+      startsWith(github.event.pull_request.title, 'Bump version') &&
+      contains(github.event.pull_request.title, ' → ')
+    steps:
+      - name: Get new version
+        id: get-new-version
+        run: |
+          NEW_VERSION=$(echo ${{ github.head_ref }} | cut -d _ -f4 )
+          echo "::set-output name=version::$NEW_VERSION"
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.get-new-version.outputs.version }}
+          release_name: v${{ steps.get-new-version.outputs.version }} Release

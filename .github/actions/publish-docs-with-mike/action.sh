@@ -11,9 +11,9 @@ git fetch --no-tags --prune --progress --no-recurse-submodules --depth=1 origin 
 echo "::endgroup::"
 
 echo "::group::Publish documentation"
-if [[ "${VERSION_BUMP_PR}" == "false" ]]; then
+if [[ "${NEW_VERSION}" == "false" ]]; then
   if [[ "${VERSION_NAME}" == "" ]]; then
-    echo "::error::'version_name' must be specified when 'version_bump_pr' is false."
+    echo "::error::'version_name' must be specified when 'NEW_VERSION' is false."
     exit 1
   fi
   echo "mike deploy \"${VERSION_NAME}\""
@@ -22,7 +22,7 @@ elif [[ "${GITHUB_EVENT_NAME:-}" != "pull_request" ]]; then
   echo "::error::version_bump_pr can only be used for pull request events."
   exit 1
 else
-  "${GITHUB_ACTION_PATH}/update_docs_for_version.sh" "${PR_TITLE}"
+  "${GITHUB_ACTION_PATH}/update_docs_for_version.sh" "${RELEASE_TAG}"
 fi
 echo "git push origin gh-pages"
 git push origin gh-pages
