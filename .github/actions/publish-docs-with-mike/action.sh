@@ -18,8 +18,8 @@ if [[ "${NEW_VERSION}" == "false" ]]; then
   fi
   echo "mike deploy \"${VERSION_NAME}\""
   mike deploy "${VERSION_NAME}"
-elif [[ "${GITHUB_EVENT_NAME:-}" != "pull_request" ]]; then
-  echo "::error::version_bump_pr can only be used for pull request events."
+elif [[ "${GITHUB_EVENT_NAME:-}" != "release" ]]; then
+  echo "::error::new_version can only be used for release events."
   exit 1
 else
   "${GITHUB_ACTION_PATH}/update_docs_for_version.sh" "${RELEASE_TAG}"
