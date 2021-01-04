@@ -2,11 +2,22 @@ site_name: Actions Playground
 repo_url: https://github.com/plannigan/actions-playground
 repo_name: plannigan/actions-playground
 docs_dir: docs
+#use_directory_urls: false
 nav:
   - Overview: index.md
   - Other: other.md
+  - New: new.md
+  - Foo New: foo/new.md
+  - bar New: foo/bar/new.md
 theme: material
 extra_css:
   - css/version-select.css
 extra_javascript:
   - js/version-select.js
+plugins:
+  - redirects:
+      redirect_maps:
+        old.md: new.md
+        foo/old.md: foo/new.md
+        foo/fizz/old.md: foo/bar/new.md
+        fizz/old.md: foo/bar/new.md
