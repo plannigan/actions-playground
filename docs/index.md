@@ -4,6 +4,6 @@
 
 A place to experiment with github workflows.
 
-VERSION=0.7.0
+VERSION=0.8.0
 
 [ci]: https://github.com/wayfair-incubator/columbo/actions
