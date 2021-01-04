@@ -24,4 +24,4 @@ jobs:
       - name: Push documentaiton changes
         uses: ./.github/actions/publish-docs-with-mike
         with:
-          version_bump_pr: true
+          new_version: true
