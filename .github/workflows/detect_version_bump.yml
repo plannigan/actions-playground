@@ -34,6 +34,6 @@ jobs:
         uses: ncipollo/release-action@v1.8.6
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
-          tag_name: v${{ steps.get-new-version.outputs.version }}
+          tag: v${{ steps.get-new-version.outputs.version }}
           name: v${{ steps.get-new-version.outputs.version }} Release
           commit: main
