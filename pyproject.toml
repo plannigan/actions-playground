@@ -1,0 +1,10 @@
+# version bumping
+[tool.hyper-bump-it]
+current_version = "0.13.0"
+
+[tool.hyper-bump-it.git.actions]
+commit = "create-and-push"
+branch = "create-and-push"
+
+[[tool.hyper-bump-it.files]]
+file_glob = "docs/index.md"
