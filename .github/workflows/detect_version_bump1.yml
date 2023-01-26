@@ -1,0 +1,16 @@
+name: Version Bump merged-extra test
+
+on:
+  pull_request:
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    environment: Create Release
+    steps:
+      - run: |
+          echo "i'm doing bad things"
+          echo "head_ref:${{ github.head_ref }}"
+          echo "base_ref:${{ github.base_ref }}"
+          echo "ref:${{ github.ref }}"
+          echo "sha:${{ github.sha }}"
