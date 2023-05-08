@@ -27,7 +27,9 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
+          name: files
           path: files/
+          if-no-files-found: error
 
   update-dev-docs:
     runs-on: ubuntu-latest
@@ -35,8 +37,12 @@ jobs:
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v3
+        with:
+            name: files
+            path: dist
 
       - name: Show artifacts
         run: |
           ls -al
-          cat *.txt
+          ls -al dist
+          cat dist/*.txt
