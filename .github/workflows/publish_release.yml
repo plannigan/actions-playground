@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Push documentaiton changes
+      - name: Push documentation changes
         uses: ./.github/actions/publish-docs-with-mike
         with:
           new_version: true
