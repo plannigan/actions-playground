@@ -1,6 +1,6 @@
 # version bumping
 [tool.hyper-bump-it]
-current_version = "0.14.0"
+current_version = "0.15.0"
 
 [tool.hyper-bump-it.git.actions]
 commit = "create-and-push"
