@@ -14,6 +14,15 @@ jobs:
     steps:
       - name: Always passes
         run: echo "Success"
+  hatch-shell:
+    runs-on: ubuntu-latest
+    steps:
+      - name: install hatch
+        run: pip install hatch
+      - name: run something in the shell
+        run: |
+          hatch --verbose -e docs shell
+          pip list
 
   upload-two-artifacts:
     runs-on: ubuntu-latest

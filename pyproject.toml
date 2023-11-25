@@ -1,3 +1,7 @@
+[project]
+name = "actions-playground"
+version = "0.0.1"
+
 # version bumping
 [tool.hyper-bump-it]
 current_version = "0.15.0"
@@ -8,3 +12,8 @@ branch = "create-and-push"
 
 [[tool.hyper-bump-it.files]]
 file_glob = "docs/index.md"
+
+[tool.hatch.envs.docs]
+dependencies = [
+    "mkdocs==1.5.3"
+]
