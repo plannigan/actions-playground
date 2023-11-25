@@ -14,6 +14,20 @@ jobs:
     steps:
       - name: Always passes
         run: echo "Success"
+  hatch-shell:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - name: install hatch
+        run: pip install hatch
+      - name: run something in the shell
+        run: |
+          ls -al
+          pwd
+          echo ${GITHUB_WORKSPACE}
+          hatch run docs:./hatch-shell.sh
+        shell: bash
 
   upload-two-artifacts:
     runs-on: ubuntu-latest
