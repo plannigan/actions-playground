@@ -26,7 +26,7 @@ jobs:
           ls -al
           pwd
           echo ${GITHUB_WORKSPACE}
-          ./hatch-shell.sh
+          hatch run docs:./hatch-shell.sh
         shell: bash
 
   upload-two-artifacts:
