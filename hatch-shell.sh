@@ -2,6 +2,6 @@
 
 set -eo pipefail
 
-hatch --verbose -e docs shell
+hatch --verbose --no-interactive -e docs shell
 
 pip list
