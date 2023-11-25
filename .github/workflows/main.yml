@@ -21,7 +21,9 @@ jobs:
         run: pip install hatch
       - name: run something in the shell
         run: |
-          ls -al 
+          ls -al
+          pwd
+          echo ${GITHUB_WORKSPACE}
           ./hatch-shell.sh
         shell: bash
 
