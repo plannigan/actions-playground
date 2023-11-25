@@ -20,9 +20,7 @@ jobs:
       - name: install hatch
         run: pip install hatch
       - name: run something in the shell
-        run: |
-          hatch --verbose -e docs shell
-          pip list
+        run: ./hatch-shell.sh
 
   upload-two-artifacts:
     runs-on: ubuntu-latest
