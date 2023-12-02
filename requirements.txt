@@ -1,4 +1,5 @@
 bump2version==1.0.1
-mike==1.1.2
-mkdocs-material==9.0.6
-mkdocs-redirects==1.2.0
+mike==2.0.0
+mkdocs==1.5.3
+mkdocs-material==9.4.14
+mkdocs-redirects==1.2.1
