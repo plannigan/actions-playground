@@ -10,7 +10,8 @@ on:
 jobs:
   update_docs_for_version_bump:
     runs-on: ubuntu-latest
-    environment: "Used by tags"
+    permissions:
+      contents: write
     steps:
       - name: Check out code
         uses: actions/checkout@v2.3.4
