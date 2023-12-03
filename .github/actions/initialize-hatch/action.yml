@@ -26,7 +26,6 @@ runs:
         ENVIRONMENT_NAME: "${{ inputs.environment-name }}"
       run: |
         source $(hatch env find "${ENVIRONMENT_NAME}")/bin/activate
-        echo "VIRTUAL_ENV=${VIRTUAL_ENV}" >> "$GITHUB_ENV"
-        echo "PATH=${PATH}" >> "$GITHUB_ENV"
-        echo "VIRTUAL_ENV_PROMPT=${VIRTUAL_ENV_PROMPT}" >> "$GITHUB_ENV"
+        echo "VIRTUAL_ENV=${VIRTUAL_ENV}" >> "${GITHUB_ENV}"
+        echo "${VIRTUAL_ENV}/bin" >> "${GITHUB_PATH}"
       shell: "bash"
