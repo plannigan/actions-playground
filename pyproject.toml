@@ -9,6 +9,14 @@ branch = "create-and-push"
 [[tool.hyper-bump-it.files]]
 file_glob = "docs/index.md"
 
+[build-system]
+requires = ["hatchling==1.18.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "FAKE_actions-playground"
+version = "0.0.1"
+
 [tool.hatch.envs.default]
 detached = true
 description = "Test and lint the project code"
