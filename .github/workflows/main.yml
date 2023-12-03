@@ -42,7 +42,11 @@ jobs:
           environment-name: "default"
 #          activate: "true"
       - name: Show Environment
-        run: "pip list"
+        run: |
+          echo ${VIRTUAL_ENV}
+          echo ${PATH}
+          echo ${VIRTUAL_ENV_PROMPT}
+          pip list
 
   update-dev-docs:
     runs-on: ubuntu-latest
