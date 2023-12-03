@@ -24,5 +24,9 @@ runs:
       if: "${{ inputs.activate == 'true' }}"
       env:
         ENVIRONMENT_NAME: "${{ inputs.environment-name }}"
-      run: 'source $(hatch env find "${ENVIRONMENT_NAME}")/bin/activate'
+      run: |
+        source $(hatch env find "${ENVIRONMENT_NAME}")/bin/activate
+        echo "VIRTUAL_ENV=${VIRTUAL_ENV}" >> "$GITHUB_ENV"
+        echo "PATH=${PATH}" >> "$GITHUB_ENV"
+        echo "VIRTUAL_ENV_PROMPT=${VIRTUAL_ENV_PROMPT}" >> "$GITHUB_ENV"
       shell: "bash"
