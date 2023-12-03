@@ -40,7 +40,7 @@ jobs:
         uses: ./.github/actions/initialize-hatch
         with:
           environment-name: "default"
-          activate: "true"
+#          activate: "true"
       - name: Show Environment
         run: "pip list"
 
