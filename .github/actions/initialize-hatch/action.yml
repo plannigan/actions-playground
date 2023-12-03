@@ -17,12 +17,12 @@ runs:
       shell: "bash"
     - name: "Create environment"
       env:
-        ENVIRONMENT_NAME: "${{ github.event.pull_request.title }}"
+        ENVIRONMENT_NAME: "${{ inputs.environment-name }}"
       run: 'hatch --verbose env create "${ENVIRONMENT_NAME}"'
       shell: "bash"
     - name: "Activate environment"
       if: "${{ inputs.activate == 'true' }}"
       env:
-        ENVIRONMENT_NAME: "${{ github.event.pull_request.title }}"
+        ENVIRONMENT_NAME: "${{ inputs.environment-name }}"
       run: 'source $(hatch env find "${ENVIRONMENT_NAME}")/bin/activate'
       shell: "bash"
