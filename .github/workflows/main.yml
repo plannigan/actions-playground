@@ -31,6 +31,17 @@ jobs:
           path: files/
           if-no-files-found: error
 
+  use-hatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Initialize Hatch
+        uses: ./.github/actions/initialize-hatch
+        with:
+          environment-name: "default"
+          activate: "true"
+      - name: Show Environment
+        run: "pip list"
+
   update-dev-docs:
     runs-on: ubuntu-latest
     needs: ["upload-two-artifacts"]
