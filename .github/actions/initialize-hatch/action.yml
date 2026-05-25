@@ -5,10 +5,10 @@ inputs:
     description: "Which environment to create"
     default: "default"
     required: false
-  activate:
-    description: "If the environment should be activated after creation"
-    default: "false"
-    required: false
+outputs:
+  venv-path:
+    description: "Absolute path to created virtual env"
+    value: ${{ steps.env-path.outputs.venv-path }}
 runs:
   using: "composite"
   steps:
@@ -20,12 +20,9 @@ runs:
         ENVIRONMENT_NAME: "${{ inputs.environment-name }}"
       run: 'hatch --verbose env create "${ENVIRONMENT_NAME}"'
       shell: "bash"
-    - name: "Activate environment"
-      if: "${{ inputs.activate == 'true' }}"
+    - name: "Retrieve venv path"
+      id: env-path
       env:
         ENVIRONMENT_NAME: "${{ inputs.environment-name }}"
-      run: |
-        source $(hatch env find "${ENVIRONMENT_NAME}")/bin/activate
-        echo "VIRTUAL_ENV=${VIRTUAL_ENV}" >> "${GITHUB_ENV}"
-        echo "${VIRTUAL_ENV}/bin" >> "${GITHUB_PATH}"
+      run: echo "venv-path=$(hatch env find "${ENVIRONMENT_NAME}")" >> $GITHUB_OUTPUT
       shell: "bash"
