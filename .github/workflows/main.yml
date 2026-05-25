@@ -37,16 +37,15 @@ jobs:
       - name: Check out code
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Initialize Hatch
+        id: init-hatch
         uses: ./.github/actions/initialize-hatch
         with:
           environment-name: "default"
-          activate: "true"
       - name: Show Environment
         run: |
-          echo ${VIRTUAL_ENV}
+          echo ${{ steps.init-hatch.outputs.venv-path }}
           echo ${PATH}
-          echo ${VIRTUAL_ENV_PROMPT}
-          pip list
+          "${{ steps.init-hatch.outputs.venv-path }}"/bin/pip list
 
   update-dev-docs:
     runs-on: ubuntu-latest
